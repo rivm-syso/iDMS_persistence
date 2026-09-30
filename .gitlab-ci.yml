@@ -1,0 +1,50 @@
+stages:
+  - test
+  - build
+  - internal_publish
+  - release_publish
+
+include:
+  # Unit testing
+  - component: $CI_SERVER_FQDN/bioinformatics/pipelines/python/unittesting@0.3.0
+    inputs:
+      job_name: unit_test_persistence
+      stage: test
+      # needed to build uwsgi
+      before_script:
+        - apt-get update && apt-get install -y gcc libc6-dev build-essential python3-dev
+        - ./test.sh
+  # Build and publish the package
+  - component: $CI_SERVER_FQDN/bioinformatics/pipelines/python/build_package@0.3.0
+    inputs:
+      job_name: build_package
+      before_script:
+        - apt-get update && apt-get install -y gcc libc6-dev build-essential python3-dev
+      stage: build
+  - component: $CI_SERVER_FQDN/bioinformatics/pipelines/python/publish_package@0.3.0
+    inputs:
+      job_name: publish_package_rc
+      before_script:
+        - apt-get update && apt-get install -y gcc libc6-dev build-essential python3-dev
+      stage: internal_publish
+  # Build and release package
+  - component: $CI_SERVER_FQDN/bioinformatics/pipelines/python/publish_package@0.3.0
+    inputs:
+      job_name: publish_package_pr
+      username: oauth2
+      password: $PUBLISH_TOKEN
+      publish_url: ${CI_API_V4_URL}/projects/4682/packages/pypi
+      stage: release_publish
+
+# Define rules for the job
+unit_test_persistence:
+  image: continuumio/miniconda3:latest
+build_package:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-rc\.\d+)?$/
+publish_package_rc:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-rc\.\d+$/
+publish_package_pr:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/

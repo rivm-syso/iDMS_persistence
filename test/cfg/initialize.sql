@@ -1,0 +1,7 @@
+DROP DATABASE IF EXISTS projectdb;
+DROP ROLE IF EXISTS projects;
+
+CREATE DATABASE projectdb;
+\c projectdb
+CREATE ROLE projects;
+GRANT ALL PRIVILEGES ON DATABASE proJECTDB TO projects;

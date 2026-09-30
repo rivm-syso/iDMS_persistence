@@ -1,0 +1,18 @@
+name: flask-rest
+channels:
+  - conda-forge
+dependencies:
+  - git
+  - libxcrypt
+  - uwsgi
+  - openssl
+  - pip
+  - python>=3.13
+  - redis-server
+  - pip:
+    - "--extra-index-url https://gitlab.rivm.nl/api/v4/projects/4682/packages/pypi/simple"
+    - idms-persistence
+    - pytest
+    - pytest-cov
+
+

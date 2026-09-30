@@ -1,0 +1,105 @@
+<HTML>
+
+<HEAD>
+    <style>
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table td,
+        table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #ddd;
+        }
+
+        table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #f8f9fa;
+            color: black;
+
+        }
+    </style>
+</HEAD>
+
+<BODY>
+    {% if project_messages|length > 0 %}
+    <H2>Changes to the iRODS project configurations</H2>
+    <TABLE>
+        <THEAD>
+            <TR>
+                <TH>Project</TH>
+                <TH>Date/time</TH>
+                <TH>Author</TH>
+                <TH>Objecttype</TH>
+                <TH>Objectname</TH>
+                <TH>Message</TH>
+            </TR>
+        </THEAD>
+        <TBODY>
+            {% for project, messagelist in project_messages.items() %}
+            <TR>
+                <TD ROWSPAN="{{ messagelist | length }}"><EMP>{{ project }}</EMP></TD>
+                {% for message in messagelist %}
+                <td>{{ message.messagetime }}</td>
+                <TD>{{ message.author }}</TD>
+                <TD>{{ message.objecttype }}</TD>
+                <TD>{{ message.objectname }}</TD>
+                <TD>{{ message.message }}</TD>
+                {% if not loop.last %}
+            </TR>
+            <TR>{% endif %}
+                {% endfor %}
+            </TR>
+            {% endfor %}
+        </TBODY>
+    </TABLE>
+{% endif %}
+
+{% if refdata_messages|length > 0 %}
+    <H2>Changes to Reference Data definitions</H2>
+    <TABLE>
+        <THEAD>
+            <TR>
+                <TH>ReferenceData</TH>
+                <TH>Date/time</TH>
+                <TH>Author</TH>
+                <TH>Objecttype</TH>
+                <TH>Objectname</TH>
+                <TH>Message</TH>
+            </TR>
+        </THEAD>
+        <TBODY>
+            {% for refdata, messagelist in refdata_messages.items() %}
+            <TR>
+                <TD ROWSPAN="{{ messagelist | length }}"><EMP>{{ refdata }}</EMP></TD>
+                {% for message in messagelist %}
+                <td>{{ message.messagetime }}</td>
+                <TD>{{ message.author }}</TD>
+                <TD>{{ message.objecttype }}</TD>
+                <TD>{{ message.objectname }}</TD>
+                <TD>{{ message.message }}</TD>
+                {% if not loop.last %}
+            </TR>
+            <TR>{% endif %}
+                {% endfor %}
+            </TR>
+            {% endfor %}
+        </TBODY>
+    </TABLE>
+{% endif %}
+
+</BODY>
+
+</HTML>

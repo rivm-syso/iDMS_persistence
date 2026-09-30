@@ -1,0 +1,709 @@
+{
+    "Test1": {
+        "processes": {
+            "iget": {
+                "description": "iget collection to local storage",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "none",
+                "next_projectID": "Test1",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.5"
+            },
+            "none": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/test1/output",
+            "description": "Testproject",
+            "service_account": "svc-irods_ovbbd"
+        }
+    },
+    "adhoc": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "adhoc",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/adhoc",
+            "description": "Adhoc data, voor iedereen zichtbaar",
+            "service_account": "svc-irods_adhoc"
+        }
+    },
+    "bsr_amr": {
+        "processes": {
+            "None": {
+                "description": "",
+                "distribution": "false",
+                "modify_in_place": "false",
+                "next_processID": "None",
+                "next_projectID": "bsr_amr",
+                "repo": "",
+                "restartable": "false",
+                "tag": ""
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "bsr_amr",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/bsr_amr",
+            "description": "Bacteri\u00eble surveillance en respons Antimicrobi\u00eble Resistentie",
+            "service_account": "svc-irods_bsr_amr"
+        }
+    },
+    "bsr_rvp": {
+        "processes": {
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "none",
+                "next_projectID": "bsr_rvp",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            },
+            "none": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/bsr_rvp",
+            "description": "RVP bacteriele pathogenen",
+            "service_account": "svc-irods_bsr_rvp"
+        }
+    },
+    "cbrn": {
+        "processes": {
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "none",
+                "next_projectID": "cbrn",
+                "output_prefix": "/rivmZone/projects/cbrn/temp",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.2"
+            },
+            "none": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/cbrn",
+            "description": "CBRN",
+            "service_account": "svc-irods_cbrn"
+        }
+    },
+    "demo": {
+        "processes": {},
+        "settings": {
+            "default_collection": "/rivmZone/projects/demo/output",
+            "description": "Demo project",
+            "service_account": ""
+        }
+    },
+    "dsshig": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "dsshig",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/dsshig",
+            "description": "Shigella",
+            "service_account": "svc-irods_dsshig"
+        }
+    },
+    "dv_amr": {
+        "processes": {
+            "None": {
+                "description": "",
+                "distribution": "false",
+                "modify_in_place": "false",
+                "next_processID": "None",
+                "next_projectID": "dv_amr",
+                "repo": "",
+                "restartable": "false",
+                "tag": ""
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "dv_amr",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/dv_amr",
+            "description": "Dier en vector, Antimicrobi\u00eble Resistentie",
+            "service_account": "svc-irods_dv_amr"
+        }
+    },
+    "gzb": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "gzb",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/gzb",
+            "description": "Gezondheidsbescherming",
+            "service_account": "svc-irods_gzb"
+        }
+    },
+    "iiv": {
+        "processes": {
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "none",
+                "next_projectID": "iiv",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            },
+            "none": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/iiv",
+            "description": "Immunologie van Infectieziekten en Vaccins",
+            "service_account": "svc-irods_iiv"
+        }
+    },
+    "miasmas": {
+        "processes": {
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "none",
+                "next_projectID": "miasmas",
+                "output_prefix": "/rivmZone/projects/miasmas/temp",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            },
+            "none": {
+                "description": "",
+                "distribution": "false",
+                "modify_in_place": "false",
+                "next_processID": "none",
+                "next_projectID": "miasmas",
+                "output_prefix": "",
+                "repo": "",
+                "restartable": "false",
+                "tag": ""
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/miasmas",
+            "description": "MIASMAS",
+            "service_account": "svc-irods_miasmas"
+        }
+    },
+    "myco": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "myco",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/myco",
+            "description": "Mycobacterien diagnostiek en surveillance",
+            "service_account": "svc-irods_myco"
+        }
+    },
+    "ngslab": {
+        "processes": {
+            "bcl2fastq": {
+                "description": "Demultiplex",
+                "distribution": "false",
+                "modify_in_place": "false",
+                "next_processID": "distribute",
+                "next_projectID": "ngslab",
+                "output_prefix": "/rivmZone/projects/ngslab/output",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/wierinve/bcl2fastq.git",
+                "restartable": "false",
+                "tag": "v2.7"
+            },
+            "check_samplesheet": {
+                "description": "Check if samplesheet is valid",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "bcl2fastq",
+                "next_projectID": "ngslab",
+                "output_prefix": "/rivmZone/projects/ngslab/temp",
+                "queue": "",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/verhager/check_samplesheet.git",
+                "restartable": "true",
+                "tag": "v3.0"
+            },
+            "distribute": {
+                "description": "distribute.yml generation for fastq data",
+                "distribution": "true",
+                "modify_in_place": "true",
+                "next_processID": "none",
+                "next_projectID": "ngslab",
+                "output_prefix": "/rivmZone/projects/ngslab/temp",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKENgitl01-int-p.rivm.nl/kroonma/distribute-illumina-fastq.git",
+                "restartable": "false",
+                "tag": "v1.3"
+            },
+            "minion": {
+                "description": "Extract minion metadata",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "nanopore_demultiplex",
+                "next_projectID": "ngslab",
+                "repo": "https://gitl01-int-p.rivm.nl/wierinve/minion_metadata.git",
+                "restartable": "false",
+                "tag": "v0.2"
+            },
+            "miseq": {
+                "description": "Extract Metadata",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "check_samplesheet",
+                "next_projectID": "ngslab",
+                "output_prefix": "/rivmZone/projects/ngslab/temp",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/wierinve/illumina_metadata.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            },
+            "nanopore_demultiplex": {
+                "description": "Nanopore demultiplex",
+                "distribution": "false",
+                "modify_in_place": "false",
+                "next_processID": "distribute",
+                "next_projectID": "ngslab",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl//landmanf/nanopore_demultiplex.git",
+                "restartable": "false",
+                "tag": "v0.1"
+            },
+            "nextseq": {
+                "description": "Extract Metadata",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "check_samplesheet",
+                "next_projectID": "ngslab",
+                "output_prefix": "/rivmZone/projects/ngslab/temp",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/wierinve/illumina_metadata.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            },
+            "none": {
+                "description": "",
+                "distribution": "false",
+                "modify_in_place": "false",
+                "next_processID": "none",
+                "next_projectID": "ngslab",
+                "output_prefix": "",
+                "repo": "",
+                "restartable": "false",
+                "tag": ""
+            },
+            "test_distribute": {
+                "description": "Distribute output data",
+                "distribution": "true",
+                "modify_in_place": "true",
+                "next_processID": "none",
+                "next_projectID": "ngslab",
+                "repo": "https://gitl01-int-p.rivm.nl/wierinve/test_distribute.git",
+                "restartable": "false",
+                "tag": "PROD"
+            },
+            "test_extract_metadata": {
+                "description": "Extract metadata",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "test_process",
+                "next_projectID": "ngslab",
+                "repo": "https://gitl01-int-p.rivm.nl/wierinve/test_extract_metadata.git",
+                "restartable": "true",
+                "tag": "PROD3"
+            },
+            "test_process": {
+                "description": "Process the data",
+                "distribution": "false",
+                "modify_in_place": "false",
+                "next_processID": "test_distribute",
+                "next_projectID": "ngslab",
+                "repo": "https://gitl01-int-p.rivm.nl/wierinve/test_process.git",
+                "restartable": "false",
+                "tag": "PROD"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/ngslab/output",
+            "description": "NGS Lab Data Processing",
+            "service_account": "svc-irods_ngslab"
+        }
+    },
+    "ovbbd": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "ovbbd",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/ovbbd",
+            "description": "Overige BBD isolate",
+            "service_account": "svc-irods_ovbbd"
+        }
+    },
+    "ovzeno": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "ovzeno",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/ovzeno",
+            "description": "Z&O isolaten",
+            "service_account": "svc-irods_ovzeno"
+        }
+    },
+    "rogas": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "rogas",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/rogas",
+            "description": "Ringonderzoeken gastro",
+            "service_account": "svc-irods_rogas"
+        }
+    },
+    "svgasuit": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "svgasuit",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/svgasuit",
+            "description": "Overige gastro uitbraken",
+            "service_account": "svc-irods_svgasuit"
+        }
+    },
+    "svlismon": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "svlismon",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/svlismon",
+            "description": "Listeria",
+            "service_account": "svc-irods_svlismon"
+        }
+    },
+    "svsalent": {
+        "processes": {
+            "Assembly": {
+                "description": "Assembly with spades",
+                "distribution": "false",
+                "modify_in_place": "false",
+                "next_processID": "iget_assembly",
+                "next_projectID": "svsalent",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/verhager/assembly_spades.git",
+                "restartable": "false",
+                "tag": "v0.8"
+            },
+            "None": {
+                "description": "",
+                "distribution": "false",
+                "modify_in_place": "false",
+                "next_processID": "None",
+                "next_projectID": "svsalent",
+                "repo": "",
+                "restartable": "false",
+                "tag": ""
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "Assembly",
+                "next_projectID": "svsalent",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKENgitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            },
+            "iget_assembly": {
+                "description": "Export assembly data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "svsalent",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/svsalent",
+            "description": "Salmonella Enteritidis",
+            "service_account": "svc-irods_vsalent"
+        }
+    },
+    "svsaltyp": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "svsaltyp",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/svsaltyp",
+            "description": "Salmonella Typhimurium",
+            "service_account": "svc-irods_svsaltyp"
+        }
+    },
+    "svshig": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "svshig",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/svshig",
+            "description": "Shigella surveillance",
+            "service_account": "svc-irods_svshig"
+        }
+    },
+    "svstec": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "svstec",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/svstec",
+            "description": "STEC",
+            "service_account": "svc-irods_svstec"
+        }
+    },
+    "triumphgut": {
+        "processes": {
+            "None": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            },
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "None",
+                "next_projectID": "triumphgut",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/triumphgut",
+            "description": "Triumph gut",
+            "service_account": "svc-irods_triumphgut"
+        }
+    },
+    "vir-ngs": {
+        "processes": {
+            "iget": {
+                "description": "Export data to project folder",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "jovian",
+                "next_projectID": "vir-ngs",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            },
+            "iget-jovian": {
+                "description": "Export jovian output to project directory",
+                "distribution": "false",
+                "modify_in_place": "true",
+                "next_processID": "none",
+                "next_projectID": "vir-ngs",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/kroonma/iget.git",
+                "restartable": "false",
+                "tag": "v0.4"
+            },
+            "jovian": {
+                "description": "Jovian",
+                "distribution": "false",
+                "modify_in_place": "false",
+                "next_processID": "iget-jovian",
+                "next_projectID": "vir-ngs",
+                "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/schmitzd/jovian_irods_wrapper.git",
+                "restartable": "false",
+                "tag": "v0.4.7"
+            },
+            "none": {
+                "next_processID": "none",
+                "next_projectID": "none"
+            }
+        },
+        "settings": {
+            "default_collection": "/rivmZone/projects/vir-ngs",
+            "description": "Virologie NGS",
+            "service_account": "svc-irods_vir-ngs"
+        }
+    }
+}

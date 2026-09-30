@@ -1,0 +1,665 @@
+GET http://{{host}}/api/1.0/hello HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+
+GET http://{{host}}/api/1.0/secure_hello HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+### CONTACTS
+GET http://{{host}}/api/1.0/contacts HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+GET http://{{host}}/api/1.0/projects/1/contacts HTTP/1.1
+# Authorization: Basic {{user}} {{pass}}
+
+###
+GET http://{{host}}/api/1.0/projects/149/contacts HTTP/1.1
+# Authorization: Basic {{user}} {{pass}}
+
+###
+POST http://{{host}}/api/1.0/projects/1/contacts HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "name": "James Bond", "email": "bond@mi6.gov.uk", "primary": 1}
+
+###
+GET http://{{host}}/api/1.0/projects/1/contacts/1 HTTP/1.1
+# Authorization: Basic {{user}} {{pass}}
+
+###
+DELETE http://{{host}}/api/1.0/projects/1/contacts/2 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+DELETE http://{{host}}/api/1.0/projects/1/contacts/4 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+PUT http://{{host}}/api/1.0/projects/1/contacts/2 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "email": "erwin.van.wieringen2@rivm.nl", "primary": 0 }
+
+### PROJECTS
+GET http://{{host}}/api/1.0/projects HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+### 
+GET http://{{host}}/api/1.0/projects/ngslab HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+### 
+GET http://{{host}}/api/1.0/projects/1/processgroups/default/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+### 
+GET http://{{host}}/api/1.0/projects/svstec/processgroups/default/processes/158/dependencies/17 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+### 
+
+GET http://{{host}}/api/1.0/projects/svsaltyp/processgroups/default/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+###
+POST http://{{host}}/api/1.0/projects HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "name": "svstec9" }
+
+###
+DELETE http://{{host}}/api/1.0/projects/svstec8 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+###
+GET http://{{host}}/api/1.0/projects/ngslab/users HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+GET http://{{host}}/api/1.0/projects/ngslab/external/users/groups HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+GET http://{{host}}/api/1.0/projects/ngslab/external/users/groups/g-fun-bioinfo_devops HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+DELETE http://{{host}}/api/1.0/projects/ngslab/external/users/groups/g-fun-bioinfo_devops HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+POST http://{{host}}/api/1.0/projects/ngslab/external/users/groups HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "groupname": "g-fun-bioinfo_devops" }
+
+###
+GET http://{{host}}/api/1.0/projects/ngslab/external/managers/groups HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+GET http://{{host}}/api/1.0/projects/ngslab/external/managers/groups/g-fun-bioinfo_devops HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+DELETE http://{{host}}/api/1.0/projects/ngslab/external/managers/groups/g-fun-bioinfo_devops HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+POST http://{{host}}/api/1.0/projects/ngslab/external/managers/groups HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "groupname": "g-fun-bioinfo_devops" }
+
+
+###
+POST http://{{host}}/api/1.0/projects/1/users HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "username": "lobners" }
+###
+GET http://{{host}}/api/1.0/projects/2/managers HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+POST http://{{host}}/api/1.0/projects/2/managers HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "username": "verhager" }
+
+###
+DELETE http://{{host}}/api/1.0/projects/2/managers/deutekoe HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+###
+DELETE http://{{host}}/api/1.0/projects/148/users/kroonma HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+
+###
+PUT http://{{host}}/api/1.0/projects/1 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "description": "OK verhager" }
+
+###
+PUT http://{{host}}/api/1.0/projects/svsalent/processgroups/default/processes/Juno%20AMR-1  HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "input" : "64" }
+
+###
+PUT http://{{host}}/api/1.0/projects/samenmeten HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "pipelines": 1 }
+
+###
+PUT http://{{host}}/api/1.0/sys/projects/1 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "last_maintenance": "1970-1-1" }
+
+
+### PROCESSES
+GET http://{{host}}/api/1.0/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+###
+GET http://{{host}}/api/1.0/processes/50 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+###
+GET http://{{host}}/api/1.0/processes/4/managers HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+###
+POST http://{{host}}/api/1.0/processes/4/managers HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+{ "username": "lobners" }
+
+###
+DELETE http://{{host}}/api/1.0/processes/50 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+GET http://{{host}}/api/1.0/processes/1/managers/verhager HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+DELETE http://{{host}}/api/1.0/processes/demux/managers/kroonma HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+
+###
+POST http://{{host}}/api/1.0/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "name": "Bundle iRODS runs BioGrid" }
+###
+DELETE http://{{host}}/api/1.0/processes/3 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+###
+PUT http://{{host}}/api/1.0/processes/2 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "description": "Analysis process", "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/wierinve/bcl2fastq.git"}
+
+###
+PUT http://{{host}}/api/1.0/processes/2 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "concurrency_limit": 1 }
+###
+PUT http://{{host}}/api/1.0/processes/1 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "max_runtime": 30001 }
+###
+PUT http://{{host}}/api/1.0/processes/50 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "compatible_clusters": ["ME"] }
+### process (default) reference data
+
+#                          /processes/id/referencedataversion
+GET http://{{host}}/api/1.0/processes/4/referencedataversion HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+
+GET http://{{host}}/api/1.0/processes/demux/tags HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+### PROCESSGROUPS
+GET http://{{host}}/api/1.0/projects/5/processgroups HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+### 
+GET http://{{host}}/api/1.0/projects/5/processgroups/2 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+### 
+PUT http://{{host}}/api/1.0/projects/5/processgroups/2 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "description": "default process group" }
+###
+POST http://{{host}}/api/1.0/projects/5/processgroups HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "name": "default" }
+###
+DELETE http://{{host}}/api/1.0/projects/148/processgroups/131 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+### PG Process 
+
+GET http://{{host}}/api/1.0/projects/baseclear/processgroups/default/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+###
+
+GET http://{{host}}/api/1.0/projects/1/processgroups/4/processes/8 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+
+GET  http://{{host}}/api/1.0/projects/pg_list_processref_refdata?project=baseclear&group=default&process=32
+Authorization: Basic {{user}} {{pass}}
+
+###
+POST http://{{host}}/api/1.0/projects/148/processgroups/132/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "name": "demux",
+ "processid" : "1" }
+###
+PUT http://{{host}}/api/1.0/projects/1/processgroups/4/processes/8 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "lsf_queue": "bio" }
+###
+DELETE http://{{host}}/api/1.0/projects/1/processgroups/1/processes/1 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+GET http://{{host}}/api/1.0/projects
+Authorization: Basic {{user}} {{pass}}
+
+###
+DELETE http://{{host}}/api/1.0/projects/ngslab/processgroups/default/processes/process1-5
+Authorization: Basic {{user}} {{pass}}
+
+###
+DELETE http://{{host}}/api/1.0/projects/ngslab/processgroups/2/processes/3
+Authorization: Basic {{user}} {{pass}}
+
+### PG Process dependencies
+GET http://{{host}}/api/1.0/projects/ngslab/processgroups/nanopore/processes/7 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+###
+GET http://{{host}}/api/1.0/projects/ngslab/processgroups/minion2/processes/7/dependencies HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+###
+POST http://{{host}}/api/1.0/projects/1/processgroups/4/processes/8/dependencies HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{}
+
+###
+PUT http://{{host}}/api/1.0/projects/1/processgroups/4/processes/8/dependencies/1 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "depends_on": 9 }
+###
+DELETE http://{{host}}/api/1.0/projects/1/processgroups/1/processes/1 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+############################
+
+###
+GET http://{{host}}/api/1.0/hello HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+
+GET http://{{host}}/api/1.0/projects HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+GET http://{{host}}/api/1.0/projects/1 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+GET http://{{host}}/api/1.0/projects/ngslab/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+
+GET http://{{host}}/api/1.0/projects/ngslab/default_processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+###
+
+GET http://{{host}}/api/1.0/projects/ssa/default_processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+
+###
+
+POST http://{{host}}/api/1.0/projects HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "name": "TEST4" }
+
+###
+
+
+
+POST http://{{host}}/api/1.0/projects HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "name": "ngslab", "force": "true" }
+###
+POST http://{{host}}/api/1.0/projects/ngslab/default_processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "process": "test_extract_metadata"}
+
+###
+POST http://{{host}}/api/1.0/projects/ssa/default_processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "process": "ssa_process_1"}
+
+###
+POST http://{{host}}/api/1.0/projects/ssa/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "name": "ssa_process_1" }
+###
+
+GET http://{{host}}/api/1.0/projects/bacid HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+###
+GET http://{{host}}/api/1.0/projects/bacid/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+###
+GET http://{{host}}/api/1.0/projects/bacid/processes/289
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+###
+GET http://{{host}}/api/1.0/projects/bacid/processes/Juno%20assembly%20-%20v2.0.6 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+###
+POST http://{{host}}/api/1.0/projects/ngslab/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "name": "test_extract_metadata" }
+
+###
+POST http://{{host}}/api/1.0/projects/ngslab/processes HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{ "name": "process2" }
+
+###
+
+PUT http://{{host}}/api/1.0/projects/ngslab HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{
+ "default_collection": "/rivmZone/projects/nsglab/output"
+}
+
+###
+PUT http://{{host}}/api/1.0/projects/ngslab/processes/process1 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{
+ "description": "analyze process",
+ "repo": "https://gitlab+YOUR_DEPLOY_TOKEN@gitl01-int-p.rivm.nl/wierinve/illumina_metadata.git",
+ "tag": "v0.6",
+ "next_projectID": "ngslab",
+ "next_processID": "process2"
+}
+
+###
+PUT http://{{host}}/api/1.0/projects/ngslab/processes/process2 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{
+ "description": "post process",
+ "repo": "https://git.site.country/repo/other_project",
+ "tag": "v1.0"
+}
+
+###
+PUT http://{{host}}/api/1.0/projects/test1/processes/iget HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{
+ "lsf_queue": "bio-acc"
+}
+###
+
+DELETE http://{{host}}/api/1.0/projects/ngslab/default_processes/2 HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+
+###
+
+PUT http://{{host}}/api/1.0/sys/projects/ngslab HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{
+ "default_collection": "/rivmZone/projects/nsglab/output"
+}
+
+###
+
+PUT http://{{host}}/api/1.0/sys/projects/ngslab HTTP/1.1
+Authorization: Basic {{user}} {{pass}}
+content-type: application/json
+
+{
+ "default_collection": "/rivmZone/projects/nsglab/output"
+}
+
+### REFERENCE DATA
+# for tests on test server, use
+# http://rivm-bioir-l01t.rivm.ssc-campus.nl/api/1.0
+# as base url
+
+GET http://{{host}}/api/1.0/reference HTTP/1.1
+content-type: application/json
+
+###
+
+POST http://{{host}}/api/1.0/reference HTTP/1.1
+content-type: application/json
+
+{ 
+    "name": "chicken_genome",
+    "synchronization_frequency": 3600,
+    "synchronize_command": "python ftp_import_template.py -n ftp.ncbi.nlm.nih.gov -u anonymous -p me@domain.com -d /genomes/all/GCA/000/002/315/GCA_000002315.4_GRCg6 -o ./new/dataset/",
+    "update_frequency": 86400
+}
+
+###
+
+GET http://{{host}}/api/1.0/reference/1 HTTP/1.1
+content-type: application/json
+
+###
+
+PUT http://{{host}}/api/1.0/reference/2 HTTP/1.1
+content-type: application/json
+
+{ 
+    "name": "mouse_genome",
+    "synchronization_frequency": 600,
+    "synchronize_command": "echo 'hello\r\n' >> ./new/dataset/collect_hellos.txt",
+    "update_frequency": 3600
+}
+
+###
+
+GET http://{{host}}/api/1.0/reference/1/versions HTTP/1.1
+content-type: application/json
+
+###
+DELETE http://{{host}}/api/1.0/reference/1 HTTP/1.1
+content-type: application/json
+
+###
+
+GET http://{{host}}/api/1.0/reference/chicken_genome/importer_state HTTP/1.1
+content-type: application/json
+
+###
+
+PUT http://{{host}}/api/1.0/reference/chicken_genome/importer_state HTTP/1.1
+content-type: application/json
+
+{ 
+  "current_version": 15, 
+  "last_synchronize": 1695648900.282184, 
+  "last_task_pid": 50902, 
+  "last_update": 0, 
+  "dataset_id": "fcd31143-49bf-4ee4-ba83-fa1a198f2d89"
+}
+
+###
+
+GET http://{{host}}/api/1.0/reference/1/versions HTTP/1.1
+content-type: application/json
+
+###
+
+POST http://{{host}}/api/1.0/reference/1/versions HTTP/1.1
+content-type: application/json
+
+{ "version": 1 }
+
+###
+
+GET http://{{host}}/api/1.0/reference/19/versions/1 HTTP/1.1
+content-type: application/json
+
+###
+GET http://{{host}}/api/1.0/reference/19/versionreference/old_version HTTP/1.1
+content-type: application/json
+
+###
+
+PUT http://{{host}}/api/1.0/reference/1/versions/1 HTTP/1.1
+content-type: application/json
+
+{ 
+  "version": "2",
+  "version_name": "v2.2",
+  "dataset_id": "fcd31143-49bf-4ee4-ba83-fa1a198f2d89"
+}
+
+###
+
+DELETE http://{{host}}/api/1.0/reference/1/versions/1 HTTP/1.1
+content-type: application/json
+
+### Referencing Versions by  processreferences
+
+GET http://{{host}}/api/1.0/projects/ngslab/processgroups/nanopore/processes/15/referencedataversion  HTTP/1.1 
+Authorization: Basic {{user}} {{pass}}     
+content-type: application/json
+
+### 
+GET http://{{host}}/api/1.0/projects/baseclear/processgroups/default/processes/32/referencedataversion HTTP/1.1 
+Authorization: Basic {{user}} {{pass}}     
+content-type: application/json
+
+
+### 
+GET http://{{host}}/api/1.0/projects/baseclear/processgroups/default/processes HTTP/1.1 
+Authorization: Basic {{user}} {{pass}}     
+content-type: application/json
+
+
+###
+POST http://{{host}}/api/1.0/projects/ngslab/processgroups/test/processes/11/referencedataversion HTTP/1.1  
+Authorization: Basic {{user}} {{pass}}     
+content-type: application/json
+
+{
+   "referencedata_versionid": 5
+}
+
+###
+PUT http://{{host}}/api/1.0/projects/<id>/processgroups/<id>/processes/<id>/referencedataversion/<id> HTTP/1.1   
+content-type: application/json
+
+{}
+
+####
+
+#GET http://{{host}}/api/1.0/projects/test1/processes/refdata_version_check/effective_referencedataversion HTTP/1.1    
+GET http://{{host}}/api/1.0/projects/ssa/processes/SC2LFV Clean/effective_referencedataversion HTTP/1.1    
+Authorization: Basic {{user}} {{pass}}        
+content-type: application/json
+
+
+####
+
+POST http://{{host}}/api/1.0/processes/11/referencedataversion HTTP/1.1    
+Authorization: Basic {{user}} {{pass}}        
+content-type: application/json
+
+{
+   "referencedata_versionid": 5
+}
+
+####
+
+GET http://{{host}}/api/1.0//projects/pg_list_processref_refdata?project=baseclear&group=default&process=36&process_ref=1 HTTP/1.1  
+Authorization: Basic {{user}} {{pass}}        
+content-type: application/json  
+
+###
+
+
+GET http://{{host}}/api/1.0//projects/test1/processgroups/default/processes/216/effective_referencedataversion 
+Authorization: Basic {{user}} {{pass}}        
+content-type: application/json  
+

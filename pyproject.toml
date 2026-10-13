@@ -32,7 +32,7 @@ dependencies = [
     "redis",
     "rq",
     "sqlalchemy<2.0.0",
-    "werkzeug==2.0.3",
+    "werkzeug==3.1.9",
     "idms-common-constants>=0.0.7",
     "python-irodsclient"
 ]

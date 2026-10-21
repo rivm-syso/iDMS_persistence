@@ -1,18 +1,20 @@
 import copy
 import re
-from flask import g, current_app
+
+from flask import current_app, g
 from irods.column import Criterion
 from irods.exception import GroupDoesNotExist
 from irods.meta import iRODSMeta
 from irods.models import Group, UserMeta
 from irods.session import iRODSSession
-from idms.persistence.exceptions import (
-    TEMPLATE_NOT_CONFIGURED,
-    MULTIPLE_GROUPS_EXCEPTION,
-)
+
 from idms.persistence.constant import (
-    DEFAULT_CONNECT_PARAMETERS,
     ADMIN_CONNECT_PARAMETERS,
+    DEFAULT_CONNECT_PARAMETERS,
+)
+from idms.persistence.exceptions import (
+    MULTIPLE_GROUPS_EXCEPTION,
+    TEMPLATE_NOT_CONFIGURED,
 )
 
 
@@ -72,7 +74,7 @@ def setmeta(o, attr, value):
     o.metadata[attr] = iRODSMeta(attr, value)
 
 
-def provide_group(sess, key, purpose, metadata={}, syncback=False):
+def provide_group(sess, key, purpose, metadata={}):
     """Create or return irods group based on purpose and metadata
 
     Args:
@@ -118,11 +120,6 @@ def provide_group(sess, key, purpose, metadata={}, syncback=False):
     setmeta(group, purpose_attr, purpose)
     for k, v in metadata.items():
         setmeta(group, k, v)
-    syncback_attr = current_app.config.get("ATTR_AD_SYNC")
-    if syncback:
-        setmeta(group, syncback_attr, "true")
-    else:
-        group.metadata._delete_all_values(syncback_attr)
     return group
 
 

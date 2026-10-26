@@ -43,65 +43,62 @@ REFERENCE DATA
 /reference/<id>/versionreference/<versionid>
 """
 
-import re
 import logging
-import git
+import re
 import uuid
-
 from datetime import datetime
-from dateutil import parser as dateparser
-from sqlalchemy import desc
-from flask import Blueprint, jsonify, request, abort, g, current_app
-from flask_marshmallow import Marshmallow
 
-from idms.persistence.enum import OBJECTS
+import git
+from dateutil import parser as dateparser
+from flask import Blueprint, abort, current_app, g, jsonify, request
+from flask_marshmallow import Marshmallow
+from idms.common.constants.attribute_names import ATTR_GROUP_EXTERNAL
+from sqlalchemy import desc
+
 from idms.persistence.auth import auth
-from idms.persistence.notifications import notify
-from idms.persistence.models.Model import (
-    db,
-    Project,
-    Process,
-    Process2,
-    ProcessGroup,
-    ProcessRef,
-    ProcessDependency,
-    Contact,
-    ReferenceData,
-    ReferenceDataVersion,
-    ReferenceDataImport,
-    ReferenceDataVersionForProcessRef,
-    ReferenceDataVersionForProcess,
-)
-from idms.persistence.schemas.Schema import (
-    ReferenceDataVersionForProcessSchema,
-    ReferenceDataVersionForProcessRefSchema,
-    ReferenceDataImportSchema,
-    ReferenceDataVersionSchema,
-    ReferenceDataSchema,
-    ContactsSchema,
-    ContactSchema,
-    ProcessDependencySchema,
-    ProcessRefSchema,
-    ProcessgroupSchema,
-    ProcessesSchema,
-    Process2Schema,
-    Processes2Schema,
-    ProjectSchema,
-    ProjectsSchema,
-)
+from idms.persistence.enum import OBJECTS
 from idms.persistence.exceptions import GROUP_NOT_FOUND
 from idms.persistence.irods_functions import (
-    admin_session,
-    get_user,
-    get_group,
     add_groupmember,
+    admin_session,
+    get_group,
+    get_user,
     provide_group,
     remove_groupmember,
-    setmeta,
-    addmeta,
-    rmmeta,
 )
-from idms.common.constants.attribute_names import ATTR_GROUP_EXTERNAL
+from idms.persistence.models.Model import (
+    Contact,
+    Process,
+    Process2,
+    ProcessDependency,
+    ProcessGroup,
+    ProcessRef,
+    Project,
+    ReferenceData,
+    ReferenceDataImport,
+    ReferenceDataVersion,
+    ReferenceDataVersionForProcess,
+    ReferenceDataVersionForProcessRef,
+    db,
+)
+from idms.persistence.notifications import notify
+from idms.persistence.schemas.Schema import (
+    ContactSchema,
+    ContactsSchema,
+    Process2Schema,
+    ProcessDependencySchema,
+    Processes2Schema,
+    ProcessesSchema,
+    ProcessgroupSchema,
+    ProcessRefSchema,
+    ProjectSchema,
+    ProjectsSchema,
+    ReferenceDataImportSchema,
+    ReferenceDataSchema,
+    ReferenceDataVersionForProcessRefSchema,
+    ReferenceDataVersionForProcessSchema,
+    ReferenceDataVersionSchema,
+)
 
 log = logging.getLogger(__name__)
 
@@ -159,10 +156,10 @@ def iso2dt(timestr):
 
 def displayname():
     try:
-        displayname = g.user.metadata.get_one("sys::ad::displayName").value
+        user_displayname = g.user.metadata.get_one("sys::ad::displayName").value
     except KeyError:
-        displayname = "-----"
-    return displayname
+        user_displayname = "-----"
+    return user_displayname
 
 
 def is_valid_uuid(val):
@@ -342,7 +339,7 @@ def import_state_for_referenceid(referenceid):
     return importer_state
 
 
-def is_manager(object):
+def is_manager(obj):
     """Check if current_user is a manager for supplied project or process
 
     Args:
@@ -351,66 +348,48 @@ def is_manager(object):
     Returns:
         boolean: True if current_user is manager
     """
-    if hasattr(object, "owner"):
-        is_owner = object.owner == g.username
+    if hasattr(obj, "owner"):
+        user_is_owner = obj.owner == g.username
     else:
-        is_owner = False
+        user_is_owner = False
 
-    is_manager = False
-    if hasattr(object, "manager_group"):
-        mg = get_group(object.manager_group)
-        is_manager = mg.hasmember(g.username)
+    user_is_manager = False
+    if hasattr(obj, "manager_group"):
+        mg = get_group(obj.manager_group)
+        user_is_manager = mg.hasmember(g.username)
 
     log.debug(
-        f"Permissions on {object} - {object.name} for user {g.username}: is_owner: {is_owner}, is_manager: {is_manager}"
+        f"Permissions on {obj} - {obj.name} for user {g.username}: is_owner: {user_is_owner}, is_manager: {user_is_manager}"
     )
-    return is_owner or is_manager
-
-
-def provide_collection(sess, project):
-    """Create or return a collection for a project
-
-    Args:
-        sess (iRODSSession): _description_
-        project (string): project name
-    """
-    collection_template = current_app.config.get("PROJECT_COLLECTION_TEMPLATE")
-    project_attr = current_app.config.get("ATTR_PROJECTID")
-    collection_path = collection_template.format(sess.zone, project)
-    if sess.collections.exists(collection_path):
-        coll = sess.collections.get(collection_path)
-    else:
-        coll = sess.collections.create(collection_path)
-    setmeta(coll, project_attr, project)
-    return coll
+    return user_is_owner or user_is_manager
 
 
 def userdict(u):
     result = {"username": u.name}
     try:
-        displayname = u.metadata.get_one("sys::ad::displayName").value
+        user_displayname = u.metadata.get_one("sys::ad::displayName").value
     except KeyError:
-        displayname = u.name
-    result["displayName"] = displayname
+        user_displayname = u.name
+    result["displayName"] = user_displayname
     return result
 
 
-def handle_external_groups(object, groupattr, objectname):
+def handle_external_groups(obj, groupattr, objectname):
     if request.method == "GET":
-        groupname = getattr(object, groupattr)
+        groupname = getattr(obj, groupattr)
         group = get_group(groupname)
         avus = group.metadata.get_all(ATTR_GROUP_EXTERNAL)
         return jsonify([avu.value for avu in avus])
     elif request.method == "POST":
-        if not is_manager(object):
+        if not is_manager(obj):
             return (
-                jsonify({"message": f"Access denied for {objectname} {object.id}"}),
+                jsonify({"message": f"Access denied for {objectname} {obj.id}"}),
                 401,
             )
         externalgroup = request.json.get("groupname")
         if externalgroup is None:
-            return jsonify({"message": f"Invalid request data"}), 400
-        groupname = getattr(object, groupattr)
+            return jsonify({"message": "Invalid request data"}), 400
+        groupname = getattr(obj, groupattr)
         log.debug(f"Add external group {groupname} to group {groupname}")
         sess = admin_session()
         group = sess.groups.get(groupname)
@@ -419,9 +398,9 @@ def handle_external_groups(object, groupattr, objectname):
         ]
         if not externalgroup in externalgroups:
             group.metadata.add(ATTR_GROUP_EXTERNAL, externalgroup)
-            if object.__class__.__name__ == "Project":
+            if obj.__class__.__name__ == "Project":
                 notify(
-                    object.id,
+                    obj.id,
                     OBJECTS.project,
                     displayname(),
                     getattr(OBJECTS, groupattr),
@@ -433,8 +412,8 @@ def handle_external_groups(object, groupattr, objectname):
         return jsonify({"message": f"Method {request.method} not allowed"}), 405
 
 
-def handle_external_group(object, groupattr, objectname, externalgroup):
-    groupname = getattr(object, groupattr)
+def handle_external_group(obj, groupattr, objectname, externalgroup):
+    groupname = getattr(obj, groupattr)
     group = get_group(groupname)
     avus = group.metadata.get_all(ATTR_GROUP_EXTERNAL)
     externalgroups = [avu.value for avu in avus]
@@ -450,9 +429,9 @@ def handle_external_group(object, groupattr, objectname, externalgroup):
     if request.method == "GET":
         return jsonify({"externalgroup": externalgroup}), 200
     elif request.method == "DELETE":
-        if not is_manager(object):
+        if not is_manager(obj):
             return (
-                jsonify({"message": f"Access denied for {objectname} {object.id}"}),
+                jsonify({"message": f"Access denied for {objectname} {obj.id}"}),
                 401,
             )
         log.debug(f"Remove external group {externalgroup} from group {groupname}")
@@ -460,7 +439,7 @@ def handle_external_group(object, groupattr, objectname, externalgroup):
         group = sess.groups.get(groupname)
         group.metadata.remove(ATTR_GROUP_EXTERNAL, externalgroup)
         notify(
-            object.id,
+            obj.id,
             OBJECTS.project,
             displayname(),
             getattr(OBJECTS, groupattr),
@@ -472,7 +451,7 @@ def handle_external_group(object, groupattr, objectname, externalgroup):
         return jsonify({"message": f"Method {request.method} not allowed"}), 405
 
 
-def handle_groupmembers(object, groupattr, objectname):
+def handle_groupmembers(obj, groupattr, objectname):
     """_Process get/post requests for getting/adding group members
 
     Args:
@@ -484,28 +463,28 @@ def handle_groupmembers(object, groupattr, objectname):
         tuple jsondata, http_return_code
     """
     if request.method == "GET":
-        groupname = getattr(object, groupattr)
+        groupname = getattr(obj, groupattr)
         group = get_group(groupname)
         formatted_members = [userdict(member) for member in group.members]
         return jsonify(formatted_members), 200
     elif request.method == "POST":
-        if not is_manager(object):
+        if not is_manager(obj):
             return (
-                jsonify({"message": f"Access denied for {objectname} {object.id}"}),
+                jsonify({"message": f"Access denied for {objectname} {obj.id}"}),
                 401,
             )
         username = request.json.get("username")
         if username is None:
-            return jsonify({"message": f"Invalid request data"}), 400
-        groupname = getattr(object, groupattr)
+            return jsonify({"message": "Invalid request data"}), 400
+        groupname = getattr(obj, groupattr)
         log.debug(f"Add {username} to group {groupname}")
         sess = admin_session()
         group = sess.groups.get(groupname)
         if not group.hasmember(username):
             group.addmember(username)
-            if object.__class__.__name__ == "Project":
+            if obj.__class__.__name__ == "Project":
                 notify(
-                    object.id,
+                    obj.id,
                     OBJECTS.project,
                     displayname(),
                     getattr(OBJECTS, groupattr),
@@ -517,8 +496,8 @@ def handle_groupmembers(object, groupattr, objectname):
         return jsonify({"message": f"Method {request.method} not allowed"}), 405
 
 
-def handle_groupmember(object, groupattr, objectname, username):
-    groupname = getattr(object, groupattr)
+def handle_groupmember(obj, groupattr, objectname, username):
+    groupname = getattr(obj, groupattr)
     group = get_group(groupname)
     if not group.hasmember(username):
         return jsonify({"message": f"User {username} is not in group {groupname}"}), 400
@@ -526,9 +505,9 @@ def handle_groupmember(object, groupattr, objectname, username):
     if request.method == "GET":
         return userdict(user), 200
     elif request.method == "DELETE":
-        if not is_manager(object):
+        if not is_manager(obj):
             return (
-                jsonify({"message": f"Access denied for {objectname} {object.id}"}),
+                jsonify({"message": f"Access denied for {objectname} {obj.id}"}),
                 401,
             )
         log.debug(f"Remove {username} from group {groupname}")
@@ -537,7 +516,7 @@ def handle_groupmember(object, groupattr, objectname, username):
         user = sess.users.get(username)
         remove_groupmember(group, user)
         notify(
-            object.id,
+            obj.id,
             OBJECTS.project,
             displayname(),
             getattr(OBJECTS, groupattr),
@@ -613,13 +592,13 @@ def handle_change_contact(contact, entity_name, data):
                 return (
                     jsonify(
                         {
-                            "message": f"There has to be at least one primary contact!",
+                            "message": "There has to be at least one primary contact!",
                             "contact": contact_schema.dump(contact),
                         }
                     ),
                     405,
                 )
-        setattr(contact, "primary", data.get("primary"))
+        contact.primary = data.get("primary")
     db.session.commit()
     return contact_schema.dump(contact), 200
 
@@ -655,44 +634,6 @@ def handle_contacts():
 ###########
 # /projects
 ###########
-
-
-def check_project(projectid):
-    project = project_from_id(projectid)
-    if project is None:
-        return jsonify({"message": f"Project {projectid} not found"}), 404
-    check_project_groups(project.name, bool(project.pipelines))
-    check_public_project(project)
-
-
-def check_public_project(project):
-    admin_sess = admin_session()
-    projectid_attr = current_app.config.get("ATTR_PROJECTID")
-    public_group = admin_sess.groups.get("public")
-    if project.public == 1:
-        addmeta(public_group, projectid_attr, project.name)
-    else:
-        rmmeta(public_group, projectid_attr, project.name)
-
-
-def check_project_groups(projectname, syncback):
-    admin_sess = admin_session()
-    projectid_attr = current_app.config.get("ATTR_PROJECTID")
-    project_users = provide_group(
-        admin_sess,
-        projectname,
-        "project-users",
-        metadata={projectid_attr: projectname},
-        syncback=syncback,
-    )
-    project_admins = provide_group(
-        admin_sess,
-        projectname,
-        "project-admins",
-        metadata={projectid_attr: projectname},
-        syncback=False,
-    )
-    return project_users, project_admins
 
 
 @bp.route("/projects", methods=["POST"])
@@ -743,15 +684,7 @@ def handle_projects():
             log.error("Projectname {} already exists".format(projectname))
             return jsonify({"message": "Project already exists"}), 409
         # Create the new project
-        project_users, project_admins = check_project_groups(projectname, True)
-        add_groupmember(project_admins, g.user)
-        admin_sess = admin_session()
-        collection = provide_collection(admin_sess, projectname)
-        admin_sess.cleanup()
         project = Project(projectname, g.username)
-        project.user_group = project_users.name
-        project.manager_group = project_admins.name
-        project.default_collection = collection.path
         # TODO: test user authorization
         db.session.add(project)
         db.session.commit()
@@ -778,7 +711,6 @@ def handle_sys_project(projectid):
     if project is None:
         return jsonify({"message": f"Project {projectid} not found"}), 404
     log.debug(f"Update project {project.name} by system")
-    valid_system_properties = ["service_account"]
     dt_properties = ["last_verified"]
     # TODO : fix this user
     if g.username == current_app.config.get("SYSTEM_USER"):
@@ -867,9 +799,9 @@ def handle_project_update(projectid):
                     f"Attr {key} for project {project.name} set to {request.json[key]}"
                 )
                 setattr(project, key, request.json[key])
-                setattr(project, "last_updated", datetime.utcnow())
+                project.last_updated = datetime.now()
         db.session.commit()
-        check_project(project.id)
+#EVW REMOVE        check_project(project.id)
         return project_schema.jsonify(project), 202
     elif request.method == "DELETE":
         if not current_app.config.get("ENABLE_DELETE_PROJECT", False):
@@ -914,7 +846,7 @@ def handle_project_contacts_authorized(projectid):
 
     elif request.method == "POST":
         if not is_manager(project):
-            return jsonify({"message": f"Access denied for project -project.name"}), 401
+            return jsonify({"message": f"Access denied for project {project.name}"}), 401
         json, code = handle_create_contact(
             project.id, OBJECTS.project, project.name, request.json
         )
@@ -1058,7 +990,7 @@ def handle_contact(projectid, contactid):
         if not is_manager(project):
             abort(401)
         if contact.primary == 1:
-            return jsonify({"message": f"Primary contact must not be deleted!"}), 405
+            return jsonify({"message": "Primary contact must not be deleted!"}), 405
         db.session.delete(contact)
         db.session.commit()
         notify(
@@ -1067,7 +999,7 @@ def handle_contact(projectid, contactid):
             displayname(),
             OBJECTS.contact,
             contact.name,
-            f"A contact was removed from the project",
+            "A contact was removed from the project",
         )
         return jsonify({"message": "OK"}), 200
     else:
@@ -1373,7 +1305,6 @@ def process_managers(processid):
     process = process2_from_id(processid)
     if process is None:
         return jsonify({"message": f"Process {processid} not found"}), 404
-    dd1 = handle_groupmembers(process, "manager_group", "process")
     return handle_groupmembers(process, "manager_group", "process")
 
 
@@ -1495,7 +1426,7 @@ def referencedata_of_process(processid, refdataid):
         )
         db.session.delete(process_refdata)
         db.session.commit()
-        return jsonify({"message": f"reference data was deleted"}), 200
+        return jsonify({"message": "reference data was deleted"}), 200
     else:
         return jsonify({"message": f"Method {request.method} not allowed"}), 405
 
@@ -1550,7 +1481,7 @@ def handle_processgroups(projectid):
             displayname(),
             OBJECTS.processgroup,
             processgroupname,
-            f"A new processgroup was created",
+            "A new processgroup was created",
         )
         return processgroup_schema.jsonify(new_processgroup), 201
     else:
@@ -1613,7 +1544,7 @@ def handle_processgroup(projectid, processgroupid):
             displayname(),
             OBJECTS.processgroup,
             processgroup.name,
-            f"A processgroup was removed",
+            "A processgroup was removed",
         )
         return jsonify({"message": "OK"}), 200
     else:
@@ -1739,7 +1670,6 @@ def handle_processref(projectid, pgid, processrefid):
         if not is_manager(project):
             return jsonify({"message": f"Access denied for project {projectid}"}), 401
         log.debug(f"Process reference {processref.name} modified by {g.username}")
-        process = process_from_id(project.id, processref.id)
         valid_properties = ["name", "input", "lsf_queue", "tag"]
         for key in request.json:
             if key not in valid_properties:
@@ -1957,7 +1887,7 @@ def handle_pgprdv_(projectid, pgid, processrefid):
             displayname(),
             OBJECTS.reference_data,
             processgroup.name,
-            f"A required reference dataset was added to processgroup",
+            "A required reference dataset was added to processgroup",
         )
         return (
             referencedataversion_for_procesref_schema.jsonify(
@@ -2030,7 +1960,7 @@ def handle_pgprdv(projectid, pgid, processrefid, prrdvid):
             displayname(),
             OBJECTS.reference_data,
             processgroup.name,
-            f"A required reference dataset was changed in processgroup",
+            "A required reference dataset was changed in processgroup",
         )
         return (
             jsonify(
@@ -2055,7 +1985,7 @@ def handle_pgprdv(projectid, pgid, processrefid, prrdvid):
             displayname(),
             OBJECTS.reference_data,
             processgroup.name,
-            f"A required reference dataset was removed from processgroup",
+            "A required reference dataset was removed from processgroup",
         )
         return jsonify({"message": "OK"}), 200
     else:
@@ -2358,7 +2288,7 @@ def handle_referencedata(referenceid):
             displayname(),
             OBJECTS.reference_data,  # this is the object-type the change occured on!
             reference.name,
-            f"A new reference data definition was added",
+            "A new reference data definition was added",
         )
         return jsonify(referencedata_schema.dump(reference)), 200
     elif request.method == "DELETE":
@@ -2374,7 +2304,7 @@ def handle_referencedata(referenceid):
                 displayname(),
                 OBJECTS.reference_data,  # this is the object-type the change occured on!
                 reference.name,
-                f"A reference data definition was deleted",
+                "A reference data definition was deleted",
             )
             return jsonify({"message": "OK"}), 200
         else:
@@ -2488,7 +2418,7 @@ def handle_reference_contact(referenceid, contactid):
         # if not is_manager(reference):
         #    abort(401)
         if contact.primary == 1:
-            return jsonify({"message": f"Primary contact must not be deleted!"}), 405
+            return jsonify({"message": "Primary contact must not be deleted!"}), 405
         db.session.delete(contact)
         db.session.commit()
         notify(
@@ -2497,7 +2427,7 @@ def handle_reference_contact(referenceid, contactid):
             displayname(),
             OBJECTS.contact,
             contact.name,
-            f"A contact was removed from the reference data",
+            "A contact was removed from the reference data",
         )
         return jsonify({"message": "OK"}), 200
     else:
@@ -2547,7 +2477,7 @@ def handle_referencedataimport(referenceid):
     elif request.method == "PATCH":
         importer_state = import_state_for_referenceid(referenceid)
         if not importer_state:
-            return jsonify({"message": f"No importer_state found"}), 404
+            return jsonify({"message": "No importer_state found"}), 404
         for k, v in request.json.items():
             if k in ReferenceDataImport.change_allowed:
                 setattr(importer_state, k, v)
@@ -2592,7 +2522,7 @@ def handle_referencedataversions(referenceid):
             displayname(),
             OBJECTS.reference_data_version,  # this is the object-type the change occured on!
             reference.id,
-            f"A new version of a reference dataset was imported",
+            "A new version of a reference dataset was imported",
         )
         return jsonify(referencedataversion_schema.dump(new_referencedataversion)), 200
     else:
